@@ -46,22 +46,9 @@ func (o *Output) Debug(format string, v ...interface{}) {
 	}
 }
 
-func SetOutput(path string, level int) Logger {
-	out := &Output{path: path, level: level}
-
-	logfile, err := os.OpenFile(out.path, os.O_CREATE|os.O_RDWR|os.O_APPEND, 0666)
-	if err != nil {
-		fmt.Printf("set logger output file failed: %v", err)
-		return nil
-	}
-	log.SetOutput(io.MultiWriter(logfile, os.Stderr))
-	Out = out
-	return out
-}
 
 // 守护日志文件,防止文件被删除,新日志丢失
-func DaemonLog(path string, level int) {
-
+func (o *Output) DaemonLog() {
 	watcher, err := fsnotify.NewWatcher()
 	if err != nil {
 		log.Printf("new watcher error: %v\n", err)
@@ -101,4 +88,17 @@ ADD:
 			log.Println("error:", err)
 		}
 	}
+}
+
+func SetOutput(path string, level int) *Output {
+	out := &Output{path: path, level: level}
+
+	logfile, err := os.OpenFile(out.path, os.O_CREATE|os.O_RDWR|os.O_APPEND, 0666)
+	if err != nil {
+		fmt.Printf("set logger output file failed: %v", err)
+		return nil
+	}
+
+	log.SetOutput(io.MultiWriter(logfile, os.Stderr))
+	return out
 }
