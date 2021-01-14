@@ -19,19 +19,25 @@ const (
 )
 
 type Output struct {
-	path  string
-	level int
+    prefix string
+	path   string
+	level  int
+}
+
+
+func (o *Output) Prefix( info string ) {
+    o.prefix = info
 }
 
 func (o *Output) Err(format string, v ...interface{}) {
 	if o.level >= ERR {
-		log.Printf(C.ID+" "+C.Node+" [error] "+format+"\n", v...)
+		log.Printf(o.prefix + "[error] "+format+"\n", v...)
 	}
 }
 
 func (o *Output) Info(format string, v ...interface{}) {
 	if o.level >= INFO {
-		log.Printf(C.ID+" "+C.Node+" [info] "+format+"\n", v...)
+		log.Printf(o.prefix + "[info] "+format+"\n", v...)
 	}
 }
 
@@ -43,7 +49,7 @@ func (o *Output) Debug(format string, v ...interface{}) {
 			funcName = runtime.FuncForPC(pc).Name()
 			filename = filepath.Base(filename)
 		}
-		format = fmt.Sprintf(C.ID+" "+C.Node+" [debug] %s %s:%d %s\n", funcName, filename, line, format)
+		format = fmt.Sprintf(o.prefix + "[debug] %s %s:%d %s\n", funcName, filename, line, format)
 		log.Printf(format, v...)
 	}
 }
