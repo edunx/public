@@ -10,6 +10,8 @@ import (
 	"runtime"
 )
 
+var Out *Output
+
 const (
 	ERR   = 14
 	INFO  = 16
@@ -100,5 +102,6 @@ func SetOutput(path string, level int) *Output {
 	}
 
 	log.SetOutput(io.MultiWriter(logfile, os.Stderr))
+    Out = out
 	return out
 }
