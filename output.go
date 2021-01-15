@@ -70,10 +70,10 @@ func (o *Output) DaemonLog() {
 	}()
 
 ADD:
-	dir := filepath.Dir(path)
+	dir := filepath.Dir(o.path)
 	err = watcher.Add(dir)
 	if os.IsNotExist(err) {
-		SetOutput(path, level)
+		SetOutput(o.path, o.level)
 		goto ADD
 	}
 
@@ -84,9 +84,9 @@ ADD:
 				return
 			}
 
-			if event.Op&fsnotify.Remove == fsnotify.Remove && event.Name == path {
+			if event.Op&fsnotify.Remove == fsnotify.Remove && event.Name == o.path {
 				log.Println("log file was removed, will recreate it")
-				SetOutput(path, level)
+				SetOutput(o.path, o.level)
 				goto ADD
 			}
 		case err, ok := <-watcher.Errors:

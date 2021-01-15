@@ -1,5 +1,10 @@
 package public
 
+import (
+	"github.com/edunx/lua"
+	"math"
+)
+
 func CheckUserData(L *lua.LState, idx int) UserData {
 	v := L.ToUserData(idx)
 
@@ -31,32 +36,6 @@ func CheckTransportByTable(key string, tb *lua.LTable) Transport {
 			return nil
 		} else {
 			return tp
-		}
-	default:
-		Out.Err("%s must userdata , got %v", key, ud)
-		return nil
-	}
-}
-
-// check tunnel interface
-func CheckTunnel(ud *lua.LUserData) Tunnel {
-	switch tp := ud.Value.(type) {
-	case Tunnel:
-		return tp
-	default:
-		return nil
-	}
-}
-
-func CheckTunnelByTable(key string, tb *lua.LTable) Tunnel {
-	v := tb.RawGetString(key)
-	switch ud := v.(type) {
-	case *lua.LUserData:
-		if tunnel := CheckTunnel(ud); tunnel == nil {
-			Out.Err("%s not tunnel userdata", key)
-			return nil
-		} else {
-			return tunnel
 		}
 	default:
 		Out.Err("%s must userdata , got %v", key, ud)
