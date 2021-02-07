@@ -1,8 +1,25 @@
-package public 
+package public
 
 import (
 	"github.com/edunx/lua"
 )
+
+var (
+    VM  *lua.LState
+    Out *Output
+)
+
+const (
+	ERR   = 14
+	INFO  = 16
+	DEBUG = 18
+)
+
+type Output struct {
+    prefix string
+	path   string
+	level  int
+}
 
 //消息
 type Message interface {

@@ -1,4 +1,4 @@
-package public 
+package public
 
 import (
 	"fmt"
@@ -9,21 +9,6 @@ import (
 	"path/filepath"
 	"runtime"
 )
-
-var Out *Output
-
-const (
-	ERR   = 14
-	INFO  = 16
-	DEBUG = 18
-)
-
-type Output struct {
-    prefix string
-	path   string
-	level  int
-}
-
 
 func (o *Output) Prefix( info string ) {
     o.prefix = info
