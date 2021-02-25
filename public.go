@@ -3,6 +3,7 @@ package public
 import (
 	"github.com/edunx/lua"
 	"google.golang.org/protobuf/types/known/anypb"
+	"unsafe"
 )
 
 var (
@@ -50,6 +51,6 @@ type Transport interface {
 }
 
 type Any struct {
-	T  int
-	V  anypb.Any
+	V        interface{}
+	Handler  unsafe.Pointer
 }
