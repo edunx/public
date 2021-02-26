@@ -22,32 +22,6 @@ func CheckUserData(L *lua.LState, idx int) UserData {
 	}
 }
 
-func CheckTransport(ud *lua.LUserData) Transport {
-	switch tp := ud.Value.(type) {
-	case Transport:
-		return tp
-	default:
-		return nil
-	}
-}
-
-func CheckTransportByTable(key string, tb *lua.LTable) Transport {
-	v := tb.RawGetString(key)
-
-	switch ud := v.(type) {
-	case *lua.LUserData:
-		if tp := CheckTransport(ud); tp == nil {
-			Out.Err("%s not transport userdata", key)
-			return nil
-		} else {
-			return tp
-		}
-	default:
-		Out.Err("%s must userdata , got %v", key, ud)
-		return nil
-	}
-}
-
 func Round(val float64, precision int64) (newVal float64) {
 	var round float64
 	pow := math.Pow(10, float64(precision))
@@ -98,5 +72,3 @@ func S2B(s string) (b []byte) {
 	bh.Len = sh.Len
 	return
 }
-
-
