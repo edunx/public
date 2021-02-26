@@ -2,7 +2,6 @@ package public
 
 import (
 	"github.com/edunx/lua"
-	"google.golang.org/protobuf/types/known/anypb"
 	"unsafe"
 )
 
